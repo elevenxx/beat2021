@@ -68,3 +68,29 @@ def pathSum2(root, targetSum):
             q.append((node.right, node.right.val + cur, tmp + [node.right.val]))
 
     return res
+
+
+# 路径无需从根节点开始，也不需要在叶子节点结束，路径方向向下即可。
+# 思路：DFS遍历，在遍历的过程中每搜寻一个新节点，都计算一次从根节点到当前节点的路径和，使用哈希表存储数值。
+# hashmap[x] = y 代表路径和为x的路径有y条
+# 寻找子路径：判断cur-target 是否在hashmap中存储过，存储过几次就说明存在几条路径
+
+from collections import defaultdict
+
+def pathSumNoRoot(root, target):
+    hashmap = defaultdict(int)
+    hashmap[0] = 1
+
+    def dfs(root, cur):
+        if not root:
+            return 0
+        cur += root.val
+        cnt = hashmap[cur - target]
+        hashmap[cur] += 1
+        leftcnt = dfs(root.left, cur)
+        rightcnt = dfs(root.right, cur)
+        hashmap[cur] -= 1
+
+        return cnt + leftcnt + rightcnt
+
+    return dfs(root, 0, hashmap)
