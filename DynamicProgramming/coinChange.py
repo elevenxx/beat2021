@@ -19,10 +19,16 @@ def coinChange(coins, amount):
         return -1
     memo = [amount+1] * (amount+1)
     memo[0] = 0
-    for i in range(1, amount+1):
-        for j in range(len(coins)):
-            if i - coins[j] >= 0:
-                memo[i] = min(memo[i], memo[i-coins[j]] + 1)
+
+    # for i in range(1, amount+1):
+    #   for j in range(len(coins)):
+    #        if i - coins[j] >= 0:
+    #            memo[i] = min(memo[i], memo[i-coins[j]] + 1)
+
+    for i in range(1, amount + 1):
+        for j in coins:
+            if i >= j:
+                memo[i] = min(memo[i], memo[i - j] + 1)
 
     if memo[-1] == amount + 1:
         return -1
