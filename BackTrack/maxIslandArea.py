@@ -2,7 +2,6 @@
 进阶问题，返回最大岛的面积
 """
 
-
 def IslandArea(mat):
     if not mat or not mat[0]:
         return 0
